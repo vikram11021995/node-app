@@ -10,4 +10,8 @@ router.post('/login', userController.login);
 
 router.get('/all-user', authorization.jwtVerifyToken, userController.getUsers);
 
+//post api for message & createdBy
+router.post('/create-message', authorization.jwtVerifyToken, userController.createMessage);
+
+
 module.exports = router;

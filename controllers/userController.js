@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Message = require('../models/Message');
+
 const {generateToken} = require('../utils/authorization');
 
 const jwt = require('jsonwebtoken');
@@ -68,3 +70,18 @@ exports.getUsers = async (req, res) => {
       res.status(401).json(err)
     }
   }
+
+
+exports.createMessage = async (req, res) => {
+    const { message } = req.body;
+    const createdBy = req.user;
+    console.log("--------> create message : ", message, createdBy);
+    try {
+        const newMessage = new Message({ message, createdBy });
+        await newMessage.save();
+        res.status(201).json(newMessage);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
