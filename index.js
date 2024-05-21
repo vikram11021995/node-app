@@ -1,4 +1,5 @@
 // index.js
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 app.use('/api/user', userRoutes);
 
 // Database connection
-mongoose.connect('process.env.MONGODB_URI', {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
@@ -22,7 +23,7 @@ mongoose.connect('process.env.MONGODB_URI', {
     console.log('MongoDB connection error:', err);
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
