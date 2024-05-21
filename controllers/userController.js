@@ -65,7 +65,7 @@ exports.getUsers = async (req, res) => {
     try{
       let users = await User.find({});
       let response = {
-        "message":"All Users",
+        "message":"List of Users",
         "users": users
       }
       res.status(200).json(response)
