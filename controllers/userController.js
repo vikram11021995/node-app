@@ -64,7 +64,11 @@ exports.login = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try{
       let users = await User.find({});
-      res.status(200).json(users)
+      let response = {
+        "message":"All Users",
+        "users": users
+      }
+      res.status(200).json(response)
   
     } catch (err) {
       res.status(401).json(err)
