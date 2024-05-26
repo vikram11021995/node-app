@@ -9,9 +9,24 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
+app.use((req,res,next)=>{
+    console.log("API Called : ",req);
+    next()
+})
 
 // Routes
 app.use('/api/user', userRoutes);
+// app.use('/api/post', userRoutes);
+
+// Error middleware
+// app.use((req,res,next)=>{
+//     console.log(err);
+//     let status=500;
+//     if(err.status==410){status=err.status};
+//     return res.status(status).json({"message":"Error Occured",error: error})
+// })
+
+
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI, {
