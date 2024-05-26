@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Running test cases
+      
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.EC2_HOST }} #ec2 url
+          username: ${{ secrets.SSH_USERNAME }} #ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }} #pem file text
           port: ${{ secrets.EC2_SSH_PORT }}  # If your EC2 instance uses a custom SSH port
           script: |
             cd ~/node-app
