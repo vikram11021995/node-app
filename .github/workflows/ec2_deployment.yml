@@ -20,6 +20,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} #pem file text
           port: ${{ secrets.EC2_SSH_PORT }}  # If your EC2 instance uses a custom SSH port
           script: |
+            echo "from workflow"
             cd ~/node-app
             git pull
             npm i
