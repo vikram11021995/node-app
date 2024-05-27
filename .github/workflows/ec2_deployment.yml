@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Running test cases
-      
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
