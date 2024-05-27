@@ -12,10 +12,10 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use((req,res,next)=>{
-    console.log("API Called : ",req);
-    next()
-})
+// app.use((req,res,next)=>{
+//     console.log("API Called : ",req);
+//     next()
+// })
 
 
 // Custom middleware to log request details
@@ -68,3 +68,9 @@ const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+
+// module.exports = index;
+// export default index;
+
+
