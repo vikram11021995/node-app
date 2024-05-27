@@ -49,11 +49,11 @@ exports.login = async (req, res) => {
 
         const token = generateToken(user.id);
         console.log("after ------>token");
-        res.status(200).json({ token });
+        return res.status(200).json({ token });
 
         // const payload = { userId: user.id };
         // const token = jwt.sign(payload, 'jwt_secret_key', { expiresIn: '1h' });
-        res.status(200).json({ token });
+        // res.status(200).json({ token });
     } catch (error) {
         console.log("error : ",error)
         res.status(500).json({ message: 'Server error' });
