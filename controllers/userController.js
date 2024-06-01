@@ -8,7 +8,8 @@ const bcrypt = require('bcryptjs');
 
 exports.signup = async (req, res) => {
     console.log("====> Inside signup()")
-    const { username, password } = req.body;
+    const { username, password, userRole } = req.body;
+    console.log("req.body", req.body);
     try {
         let user = await User.findOne({ username });
         if (user) {
@@ -18,9 +19,9 @@ exports.signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPwd = await bcrypt.hash(password, salt);
         console.log("Hashed pwd : ",hashedPwd);
-        user = new User({ username, password: hashedPwd });
+        user = new User({ username, password: hashedPwd, userRole });
         await user.save();
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.userRole);
         res.status(201).json({ token });
         // const payload = { userId: user.id };
         // const token = jwt.sign(payload, 'jwt_secret_key', { expiresIn: '1h' });
@@ -47,8 +48,8 @@ exports.login = async (req, res) => {
         }
         console.log("before ------>token");
 
-        const token = generateToken(user.id);
-        console.log("after ------>token");
+        const token = generateToken(user.id, user.userRole);
+        console.log("after ------>token", token);
         return res.status(200).json({ token });
 
         // const payload = { userId: user.id };
