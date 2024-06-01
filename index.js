@@ -4,6 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
+const productRoutes = require('./routes/product');
+
 const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
@@ -42,6 +44,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 
 // Routes
 app.use('/api/user', userRoutes);
+app.use('/api/product', productRoutes);
+
 // app.use('/api/post', userRoutes);
 
 // Error middleware
