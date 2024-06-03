@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
+const cartRoutes = require('./routes/cart');
+
 
 const fs = require('fs');
 const path = require('path');
@@ -45,6 +47,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/cart', cartRoutes);
+
 
 // app.use('/api/post', userRoutes);
 
