@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 
 // Define the Product schema
 const ProductSchema = new mongoose.Schema({
-    product: {
-        name: String,
-        quantity: Number,
-        price: Number,
-        vendorId: mongoose.Types.ObjectId
-    }
+    name: String,
+    quantity: Number,
+    price: Number,
+    vendorId: mongoose.Types.ObjectId
 }, {
     timestamps: true, // Automatically manage createdAt and updatedAt fields
 });
