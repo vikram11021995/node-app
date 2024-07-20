@@ -23,8 +23,8 @@ exports.addToCart = async (req, res) => {
         }
 
         // Check if a cart exists for the user
-        let cart = await Cart.findOne({ customerId: userId });
-console.log("cart", cart);
+        let cart = await Cart.findOne({ customerId: userId }).populate();
+        console.log("cart", cart);
         if (cart) {
             // If the cart exists, check if the product is already in the cart
             const existingProductIndex = cart.products.findIndex(product => product._id.toString() === productId);
@@ -58,7 +58,7 @@ exports.getTotalCartItems = async (req, res) => {
     try{
         const {userId} = req.user;
         console.log("userId in GET Controller : ", userId);
-        let cart = await Cart.findOne({ "customerId":userId });
+        let cart = await Cart.findOne({ "customerId":userId }).populate("products._id");
         console.log("cart : ", cart);
         let response = {
             "message": "Got the Cart successfully",

@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Message = require('../models/Message');
+const Token = require("../models/Token");
 
 const {generateToken} = require('../utils/authorization');
 
@@ -9,7 +10,9 @@ const bcrypt = require('bcryptjs');
 exports.signup = async (req, res) => {
     console.log("====> Inside signup()")
     const { username, password, userRole } = req.body;
+    
     console.log("req.body", req.body);
+
     try {
         let user = await User.findOne({ username });
         if (user) {
@@ -21,7 +24,10 @@ exports.signup = async (req, res) => {
         console.log("Hashed pwd : ",hashedPwd);
         user = new User({ username, password: hashedPwd, userRole });
         await user.save();
-        const token = generateToken(user.id, user.userRole);
+        // const token = await generateToken(user.id, user.userRole, req.ip);
+        const token = await generateToken(user.id, user.userRole);
+        console.log("token: ", token);
+
         res.status(201).json({ token });
         // const payload = { userId: user.id };
         // const token = jwt.sign(payload, 'jwt_secret_key', { expiresIn: '1h' });
@@ -35,6 +41,7 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
     console.log("\n====> Inside login()")
     const { username, password } = req.body;
+
     try {
         const user = await User.findOne({ username });
         if (!user) {
@@ -42,19 +49,16 @@ exports.login = async (req, res) => {
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("isMatch : ",isMatch);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid Password credentials' });
         }
-        console.log("before ------>token");
+        // const token = await generateToken(user.id, user.userRole, req.ip);
+        const token = await generateToken(user.id, user.userRole);
+        console.log("token : ", token);
 
-        const token = generateToken(user.id, user.userRole);
-        console.log("after ------>token", token);
+        // return res.status(200).json({ user,token });
         return res.status(200).json({ token });
 
-        // const payload = { userId: user.id };
-        // const token = jwt.sign(payload, 'jwt_secret_key', { expiresIn: '1h' });
-        // res.status(200).json({ token });
     } catch (error) {
         console.log("error : ",error)
         res.status(500).json({ message: 'Server error' });
@@ -90,3 +94,13 @@ exports.createMessage = async (req, res) => {
     }
 };
 
+exports.signout = async (req, res) => {
+    console.log("====> Inside signout()")
+    try {
+        const token = req.headers["authorization"];
+        const result = await Token.deleteOne({token});
+        res.status(200).json({ result });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};

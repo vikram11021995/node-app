@@ -12,6 +12,7 @@ router.get('/all-user', authorization.jwtVerifyToken, userController.getUsers);
 
 //post api for message & createdBy
 router.post('/create-message', authorization.jwtVerifyToken, userController.createMessage);
+router.get('/signout', authorization.jwtVerifyToken, userController.signout);
 
 
 module.exports = router;

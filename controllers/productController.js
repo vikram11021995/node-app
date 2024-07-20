@@ -12,12 +12,10 @@ exports.createProduct = async (req, res) => {
         console.log("userId from token : ", userId);
 
         const newProduct = new Product({
-            product: {
-                name,
-                quantity,
-                price,
-                vendorId: userId
-            }
+          name,
+          quantity,
+          price,
+          vendorId: userId
         });
 
         const savedProduct = await newProduct.save();

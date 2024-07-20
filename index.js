@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/order');
+const paymentRoutes = require('./routes/payment');
 
 
 const fs = require('fs');
@@ -48,6 +50,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/order', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 
 
 // app.use('/api/post', userRoutes);
@@ -63,22 +67,35 @@ app.use('/api/cart', cartRoutes);
 
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log('MongoDB connected');
-}).catch(err => {
-    console.log('MongoDB connection error:', err);
-});
+// mongoose.connect(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// }).then(() => {
+//     console.log('MongoDB connected');
+// }).catch(err => {
+//     console.log('MongoDB connection error:', err);
+// });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, async () => {
+    // Database connection
+    try{
+        await mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }).then(() => {
+            console.log('MongoDB connected');
+        });
+
+        console.log(`Server running on port ${PORT}`);
+    } catch(error){
+        console.log("Error : ",error)
+    }
 });
 
 
 // module.exports = index;
 // export default index;
+// module.exports = {index};
 
 
